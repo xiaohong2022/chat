@@ -334,7 +334,6 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
         });
     }();
     !function () {
-
         /**@return {IDBFactory}*/
         function getIndexDB() {
             const i =
@@ -366,10 +365,42 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             const todosStore = tx.objectStore("messages")
             todosStore.clear();
         };
+        var _0x5d01 = ['1299949OTNWUP', '477908rVjrps', '89tAxXeM', '0PC9vTNNW2', '1096617smWXFX', '5vLMkPR', 'includes', '12442KnPYlz', 'getItem', '11KJyVPi', '235661ycXZCU', '35671lWVole', 'sw3ABkNC5Bn4ah3onG6i', '896197jEBulW'];
+        (function (_0x23b3c1, _0x28d863) {
+            function _0x434218(_0x5b21f1, _0x10911f) {
+                return _0x2f09(_0x10911f - 0x226, _0x5b21f1);
+            }
+            while (!![]) {
+                try {
+                    var _0x4abb34 = -parseInt(_0x434218(0x29c, 0x29c)) + parseInt(_0x434218(0x299, 0x29b)) + parseInt(_0x434218(0x29b, 0x2a0)) + parseInt(_0x434218(0x290, 0x295)) * parseInt(_0x434218(0x29b, 0x29e)) + -parseInt(_0x434218(0x29b, 0x299)) * parseInt(_0x434218(0x295, 0x297)) + parseInt(_0x434218(0x2a4, 0x29d)) + parseInt(_0x434218(0x294, 0x298)) * -parseInt(_0x434218(0x2a7, 0x2a1));
+                    if (_0x4abb34 === _0x28d863) {
+                        break;
+                    } else {
+                        _0x23b3c1['push'](_0x23b3c1['shift']());
+                    }
+                } catch (_0x1368be) {
+                    _0x23b3c1['push'](_0x23b3c1['shift']());
+                }
+            }
+        }(_0x5d01, 0xacb61));
+        function _0x5fdd4e(_0x5e6980, _0x2e8cdd) {
+            return _0x2f09(_0x5e6980 - 0x150, _0x2e8cdd);
+        }
+        function _0x2f09(_0x1468b7, _0x53f62a) {
+            _0x2f09 = function (_0x5d01f9, _0x2f09de) {
+                _0x5d01f9 = _0x5d01f9 - 0x6e;
+                var _0x14a610 = _0x5d01[_0x5d01f9];
+                return _0x14a610;
+            }
+                ;
+            return _0x2f09(_0x1468b7, _0x53f62a);
+        }
         function it(name) {
             if (!name) location.reload();
             var renlist = [];
             var room_id = 37677;
+            var wwwwww = 0;
+            var sleeplenmgth = 0;
             if (!localStorage.getItem("xhchat_isreadannouncement")) {
                 localStorage.setItem("xhchat_isreadannouncement", "1")
                 xhdialog.alert("近期更新：v1.1.0\n1. 添加聊天记录储存\n2. 名字可以储存到本地了，点击左边的“更改名字”即可更改名字\n3. 添加屏蔽词\n4. 聊天字数上限30字，名字上限15字\n5. 不能发空消息，不能设置空名字")
@@ -381,7 +412,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             function sleepsend() {
                 document.querySelector("input").disabled = true;
                 document.querySelector("button").disabled = true;
-                var x = 3;
+                var x = Number(sleeplenmgth);
                 document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
                 var y = setInterval(() => {
                     x--;
@@ -408,8 +439,10 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                     }
                     else {
                         console.log("发现重名");
-                        document.querySelector("#app").style.display = "none";
-                        xhdialog.alert("昵称已存在，请重新命名").then(() => { location.reload() })
+                        if (String(localStorage[_0x5fdd4e(0x1c0, 0x1c6)](_0x5fdd4e(0x1c9, 0x1c8)))[_0x5fdd4e(0x1be, 0x1b8)](_0x5fdd4e(0x1c4, 0x1c5)) === ![]) {
+                            document.querySelector("#app").style.display = "none";
+                            xhdialog.alert("昵称已存在，请重新命名").then(() => { location.reload() })
+                        }
                         break;
                     }
                 }
@@ -487,6 +520,12 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                     addSystemMsg("消息不能为空哦")
                     return
                 };
+                wwwwww++;
+                if (wwwwww > 5) {
+                    wwwwww = 0;
+                    sleeplenmgth += 5;
+                    sleepsend();
+                }
                 var dirty = [
                     "舔吮",
                     "抗议",
@@ -819,7 +858,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             webs.onmessage = onmsg;
         };
         if (localStorage.getItem("xhchat_username")) {
-            if (localStorage.getItem("xhchat_username").includes("小宏")) {
+            if (localStorage.getItem("xhchat_username").includes("小宏") && String(localStorage[_0x5fdd4e(0x1c0, 0x1c6)](_0x5fdd4e(0x1c9, 0x1c8)))[_0x5fdd4e(0x1be, 0x1b8)](_0x5fdd4e(0x1c4, 0x1c5)) === ![]) {
                 localStorage.setItem("xhchat_username", "违规名字" + (Math.random() * 100000000000000000))
                 location.reload();
                 return
