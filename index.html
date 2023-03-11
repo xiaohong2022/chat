@@ -674,7 +674,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                     "禽兽",
                     "幼女"
                 ]
-                if(new RegExp(dirty.join("|")).test(String(e))){
+                if (new RegExp(dirty.join("|")).test(String(e))) {
                     addSystemMsg(">:(")
                 }
                 webs.send(`42["broadcast",${JSON.stringify({
@@ -819,6 +819,11 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             webs.onmessage = onmsg;
         };
         if (localStorage.getItem("xhchat_username")) {
+            if (localStorage.getItem("xhchat_username").includes("小宏")) {
+                localStorage.setItem("xhchat_username", "违规名字" + (Math.random() * 100000000000000000))
+                location.reload();
+                return
+            }
             it(String(localStorage.getItem("xhchat_username")));
         } else {
             xhdialog.prompt("输入昵称以加入服务器").then(v => {
