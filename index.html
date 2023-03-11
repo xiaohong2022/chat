@@ -284,191 +284,178 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             }
         });
     }();
-    function initt(name) {
-        if (!name) location.reload();
-        var renlist = [];
-        var room_id = 37677;
-        function updataman() {
-            document.querySelector("r").innerText = renlist.length;
-            document.querySelector(".app-content-body-left").innerHTML = renlist.map(v => `<div class="app-content-body-left-div">${v}</div>`).join("")
-        }
-        function sleepsend() {
-            document.querySelector("input").disabled = true;
-            document.querySelector("button").disabled = true;
-            var x = 3;
-            document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
-            var y = setInterval(() => {
-                x--;
+    !function () {
+        function it(name) {
+            if (!name) location.reload();
+            var renlist = [];
+            var room_id = 37677;
+            function updataman() {
+                document.querySelector("r").innerText = renlist.length;
+                document.querySelector(".app-content-body-left").innerHTML = renlist.map(v => `<div class="app-content-body-left-div">${v}</div>`).join("")
+            }
+            function sleepsend() {
+                document.querySelector("input").disabled = true;
+                document.querySelector("button").disabled = true;
+                var x = 3;
                 document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
-                if (x === 0) {
-                    clearInterval(y)
-                    document.querySelector("input").disabled = false;
-                    document.querySelector("button").disabled = false;
-                    document.querySelector("input").placeholder = `静息结束！可以继续发消息~`
-                    setTimeout(() => {
-                        document.querySelector("input").placeholder = `说点啥好呢？`
-                    }, 1000)
-                }
-            }, 1000);
-        }
-        function ask() {
-            console.log("重名检查开始")
-            var t = [];
-            for (let i of renlist) {
-                console.log("检查名字", i);
-                if (t.includes(i) === false) {
-                    t.push(i)
-                    console.log("未重名");
-                }
-                else {
-                    console.log("发现重名");
-                    document.querySelector("#app").style.display = "none";
-                    xhdialog.alert("昵称已存在，请重新命名").then(() => { location.reload() })
-                    break;
-                }
+                var y = setInterval(() => {
+                    x--;
+                    document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
+                    if (x === 0) {
+                        clearInterval(y)
+                        document.querySelector("input").disabled = false;
+                        document.querySelector("button").disabled = false;
+                        document.querySelector("input").placeholder = `静息结束！可以继续发消息~`
+                        setTimeout(() => {
+                            document.querySelector("input").placeholder = `说点啥好呢？`
+                        }, 1000)
+                    }
+                }, 1000);
             }
-            console.log("重名检查结束")
-        }
-        function addmsg(n, s) {
-            var r = document.createElement("div");
-            r.className = "app-content-body-right-div"
-            var r1 = document.createElement("div");
-            r1.className = "app-content-body-right-div-top"
-            var r2 = document.createElement("div");
-            r2.className = "app-content-body-right-div-bottom"
-            r1.innerText = n;
-            r2.innerText = s;
-            r.append(r1, r2);
-            r.className += ` ${n === name ? "right" : "left"}`
-            document.querySelector(".app-content-body-right").appendChild(r);
-            /**@type {HTMLElement}*/
-            var ws = document.querySelector(".app-content-body-right")
-            if (ws.scrollTop - ws.offsetHeight <= ws.scrollHeight) {
-                ws.scrollTop = ws.scrollHeight;
-            };
-        }
-        function addsystemmsg(s) {
-            var r = document.createElement("div");
-            r.className = "app-content-body-right-xt"
-            r.innerText = s;
-            document.querySelector(".app-content-body-right").appendChild(r);
-        }
-        var webs = new WebSocket("wss://socket-cr.codemao.cn:9090/coconut/?x-coconut-authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ3b3JrX2lkIjoiMTc5MjE4MDQ1IiwidXNlcl9pZCI6IjkyMzIxNTEifQ.PEJx3asH_HECfXzs0VmjNUGif2tDSKbBvznCP_iGHmc&X-CodeMao-Mobile-Requested=%7B%22group_id%22%3A%22b494b662-67e9-4b54-a86b-82ac09ef9284%22%2C%22platform%22%3A%22web%22%2C%22origin%22%3A%22coconut%22%7D&EIO=3&transport=websocket");
-        webs.onclose = function () {
-            console.log("服务器中断！")
-            document.querySelector("#app").style.display = "none";
-            xhdialog.alert("服务器中断！即将重新加载！").then(() => { location.reload() })
-        };
-        function sendMessage(e) {
-            webs.send(`42["broadcast",${JSON.stringify({
-                data: e,
-                room_id: room_id,
-                username: name
-            })}]`)
-        }
-        function joinMan(r) {
-            webs.send(`42["join",${JSON.stringify({
-                room_name: "XH_zu8s1tQ0g1",
-                username: r,
-                room_id: room_id,
-                work_id: "179218045"
-            })}]`)
-        }
-        function leave(r) {
-            webs.send(`42["leave",${JSON.stringify({
-                room_name: "XH_zu8s1tQ0g1",
-                username: r,
-                room_id: room_id,
-                work_id: "179218045"
-            })}]`)
-        }
-        function ping() {
-            webs.send("2");
-        }
-        function init() {
-            document.querySelector("input").addEventListener("keypress", function (v) {
-                if (v.keyCode === 13 && this.value !== "") {
-                    sendMessage(this.value);
-                    this.value = "";
-                }
-            })
-            document.querySelector("button").addEventListener("click", function (v) {
-                if (document.querySelector("input").value !== "") {
-                    sendMessage(document.querySelector("input").value);
-                    document.querySelector("input").value = "";
-                } else {
-                    xhdialog.alert("欸，这框里...啥也没有欸")
-                }
-            })
-            window.addEventListener("beforeunload", function () {
-                leave(name)
-            })
-        }
-        function onmsg({ data }) {
-            /**@type {string}*/
-            var d = data
-            if (d.startsWith("0")) {
-                console.log(JSON.parse(d.slice(1)))
-                joinMan(name);
-                init();
-            } else if (isNaN(Number(d)) === false) {
-                if (d === "3") {
-                    console.log("服务器ping成功")
-                } else if (d === "1") {
-                    console.log("服务器即将中断")
-                }
-            } else if (d.startsWith("42")) {
-                /**@type {array}*/
-                var w = JSON.parse(d.slice(2));
-                console.log(w);
-                var d2 = w[1]
-                switch (w[0]) {
-                    // 玩家进入
-                    case "join":
-                        addsystemmsg(`${d2.username} 进入了聊天室`)
-                        if (d2.username != name) {
-                            renlist.push(d2.username);
-                        };
-                        updataman()
-                        break;
-                    // 玩家列表
-                    case "join_ack":
-                        renlist = d2.username_list
-                        updataman()
-                        ask()
-                        break;
-                    // 玩家离开
-                    case "leave":
-                        addsystemmsg(`${d2.username} 离开了聊天室`)
-                        renlist.splice(renlist.indexOf(d2.username), 1);
-                        updataman()
-                        break;
-                    // 玩家发送消息
-                    case "broadcast":
-                        addmsg(d2.username, d2.data)
-                        break;
-                    // 玩家发送消息
-                    case "error":
+            function ask() {
+                console.log("重名检查开始")
+                var t = [];
+                for (let i of renlist) {
+                    console.log("检查名字", i);
+                    if (t.includes(i) === false) {
+                        t.push(i)
+                        console.log("未重名");
+                    }
+                    else {
+                        console.log("发现重名");
                         document.querySelector("#app").style.display = "none";
-                        xhdialog.alert(d2.message).then(() => { location.reload() })
+                        xhdialog.alert("昵称已存在，请重新命名").then(() => { location.reload() })
                         break;
+                    }
+                }
+                console.log("重名检查结束")
+            }
+            function addmsg(n, s) {
+                var r = document.createElement("div");
+                r.className = "app-content-body-right-div"
+                var r1 = document.createElement("div");
+                r1.className = "app-content-body-right-div-top"
+                var r2 = document.createElement("div");
+                r2.className = "app-content-body-right-div-bottom"
+                r1.innerText = n;
+                r2.innerText = s;
+                r.append(r1, r2);
+                r.className += ` ${n === name ? "right" : "left"}`
+                document.querySelector(".app-content-body-right").appendChild(r);
+                /**@type {HTMLElement}*/
+                var ws = document.querySelector(".app-content-body-right")
+                if (ws.scrollTop - ws.offsetHeight <= ws.scrollHeight) {
+                    ws.scrollTop = ws.scrollHeight;
+                };
+            }
+            function addsystemmsg(s) {
+                var r = document.createElement("div");
+                r.className = "app-content-body-right-xt"
+                r.innerText = s;
+                document.querySelector(".app-content-body-right").appendChild(r);
+            }
+            var webs = new WebSocket("wss://socket-cr.codemao.cn:9090/coconut/?x-coconut-authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ3b3JrX2lkIjoiMTc5MjE4MDQ1IiwidXNlcl9pZCI6IjkyMzIxNTEifQ.PEJx3asH_HECfXzs0VmjNUGif2tDSKbBvznCP_iGHmc&X-CodeMao-Mobile-Requested=%7B%22group_id%22%3A%22b494b662-67e9-4b54-a86b-82ac09ef9284%22%2C%22platform%22%3A%22web%22%2C%22origin%22%3A%22coconut%22%7D&EIO=3&transport=websocket");
+            webs.onclose = function () {
+                console.log("服务器中断！")
+                document.querySelector("#app").style.display = "none";
+                xhdialog.alert("服务器中断！即将重新加载！").then(() => { location.reload() })
+            };
+            function sendMessage(e) {
+                webs.send(`42["broadcast",${JSON.stringify({
+                    data: e,
+                    room_id: room_id,
+                    username: name
+                })}]`)
+            }
+            function joinMan(r) {
+                webs.send(`42["join",${JSON.stringify({
+                    room_name: "XH_zu8s1tQ0g1",
+                    username: r,
+                    room_id: room_id,
+                    work_id: "179218045"
+                })}]`)
+            }
+            function leave(r) {
+                webs.send(`42["leave",${JSON.stringify({
+                    room_name: "XH_zu8s1tQ0g1",
+                    username: r,
+                    room_id: room_id,
+                    work_id: "179218045"
+                })}]`)
+            }
+            function ping() {
+                webs.send("2");
+            }
+            function init() {
+                document.querySelector("input").addEventListener("keypress", function (v) {
+                    if (v.keyCode === 13 && this.value !== "") {
+                        sendMessage(this.value);
+                        this.value = "";
+                    }
+                })
+                document.querySelector("button").addEventListener("click", function (v) {
+                    if (document.querySelector("input").value !== "") {
+                        sendMessage(document.querySelector("input").value);
+                        document.querySelector("input").value = "";
+                    } else {
+                        xhdialog.alert("欸，这框里...啥也没有欸")
+                    }
+                })
+                window.addEventListener("beforeunload", function () {
+                    leave(name)
+                })
+            }
+            function onmsg({ data }) {
+                var d = data
+                if (d.startsWith("0")) {
+                    console.log(JSON.parse(d.slice(1)))
+                    joinMan(name);
+                    init();
+                } else if (isNaN(Number(d)) === false) {
+                    if (d === "3") {
+                        console.log("服务器ping成功")
+                    } else if (d === "1") {
+                        console.log("服务器即将中断")
+                    }
+                } else if (d.startsWith("42")) {
+                    var w = JSON.parse(d.slice(2));
+                    console.log(w);
+                    var d2 = w[1]
+                    switch (w[0]) {
+                        case "join":
+                            addsystemmsg(`${d2.username} 进入了聊天室`)
+                            if (d2.username != name) {
+                                renlist.push(d2.username);
+                            };
+                            updataman()
+                            break;
+                        case "join_ack":
+                            renlist = d2.username_list
+                            updataman()
+                            ask()
+                            break;
+                        case "leave":
+                            addsystemmsg(`${d2.username} 离开了聊天室`)
+                            renlist.splice(renlist.indexOf(d2.username), 1);
+                            updataman()
+                            break;
+                        case "broadcast":
+                            addmsg(d2.username, d2.data)
+                            break;
+                        case "error":
+                            document.querySelector("#app").style.display = "none";
+                            xhdialog.alert(d2.message).then(() => { location.reload() })
+                            break;
+                    }
                 }
             }
-        }
-        setInterval(() => {
-            ping(); // 发送一次ping，防止服务器自己中断
-        }, 50000)
-        webs.onmessage = onmsg;
-        // document.t = {
-        //     addmsg,
-        //     sendMessage,
-        //     joinMan,
-        //     leave,
-        //     ping,
-        //     webs
-        // }
-    };
-    xhdialog.prompt("输入昵称以加入服务器").then(v => {
-        initt(v);
-    })
+            setInterval(() => {
+                ping();
+            }, 50000)
+            webs.onmessage = onmsg;
+        };
+        xhdialog.prompt("输入昵称以加入服务器").then(v => {
+            it(v);
+        });
+    }
 </script>
