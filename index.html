@@ -1,26 +1,434 @@
 <title>小宏の聊天室</title>
-<style>div#app{position:fixed;top:0;left:0;display:flex;width:100%;height:100%;background:#bbb;flex-direction:row;align-items:center;justify-content:center;flex-wrap:nowrap;align-content:center}.app-content{width:80%;height:70%;max-width:80%;max-height:70%;min-width:80%;min-height:70%;border-radius:20px;background:#fff;box-shadow:0 10px 30px 0 #888}.app-content-title{padding:20px;border-radius:20px 20px 0 0;background:#47c2ff;color:#fff;text-align:center;font-size:20px;user-select:none}.app-content-body{display:flex;width:100%;height:calc(100% - 117px);flex-direction:row}.app-content-body-left{width:100px;height:100%;border-right:1px solid #bbb}.app-content-body-right{overflow:auto;width:calc(100% - 100px);height:100%}.app-content-input{display:flex;padding:10px 15px;border-top:1px solid #bbb;flex-direction:row;align-items:center}input{padding:2px 3px;width:calc(100% - 65px);outline:0;border:none}input:disabled{background-color:#fff;cursor:no-drop}.app-content-body-left{display:flex;text-align:center;flex-direction:column}.app-content-body-left-div{padding:10px 0;text-align:center}button{padding:5px 10px;border:none;border-radius:10px;background:#0af;color:#fff;font-size:15px;cursor:pointer;transition:.3s}button:hover{background:#009ae7}button:active{transform:scale(.9)}button:disabled{opacity:.5;cursor:no-drop}button:disabled:hover{background:#0af}button:disabled:active{transform:scale(1)}.app-content-body-right-div{margin-top:5px;margin-bottom:5px;margin-left:10px}.app-content-body-right-div .app-content-body-right-div-bottom::selection{background:#38a3ff;color:#fff}.app-content-body-right-div-top{margin-left:2px;color:#888;font-size:14px;user-select:none}.app-content-body-right-div-bottom{padding:5px 10px;width:fit-content;border-radius:5px;background:#eee;font-size:16px}.app-content-body-right-div.right{display:flex;margin-right:15px;flex-direction:column;align-items:flex-end}.app-content-body-right-div.right .app-content-body-right-div-bottom::selection{background:#fff;color:#38a3ff}.app-content-body-right-div.right .app-content-body-right-div-bottom{background:#38a3ff;color:#fff}.app-content-body-right-xt{margin-top:10px;margin-bottom:10px;width:100%;color:#aaa;text-align:center;font-size:15px}.app-content-body-right-xt::selection{background:#aaa;color:#fff}.copyright{position:fixed;bottom:0;left:0;display:flex;padding:20px 0;width:100%;height:fit-content;color:#666;justify-content:center;user-select:none}</style>
-<div id="app"><div class="app-content"><div class="app-content-title">小宏の聊天室（<r>0</r> / 20）</div><div class="app-content-body"><div class="app-content-body-left"></div><div class="app-content-body-right"></div></div><div class="app-content-input"><input placeholder="说点啥好呢？"><button>发送！</button></div></div><div class="copyright">Copyright (c) 2023 xiaohong2022</div></div>
+<style>
+    div#app {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #bbb;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        align-content: center;
+    }
+
+    .app-content {
+        background: #fff;
+        border-radius: 20px;
+        min-width: 80%;
+        max-width: 80%;
+        max-height: 70%;
+        min-height: 70%;
+        box-shadow: 0px 10px 30px 0px #888;
+        width: 80%;
+        height: 70%;
+    }
+
+    .app-content-title {
+        padding: 20px;
+        text-align: center;
+        background: #47c2ff;
+        border-radius: 20px 20px 0px 0px;
+        font-size: 20px;
+        color: #fff;
+        user-select: none;
+    }
+
+    .app-content-body {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: calc(100% - 66px - 51px);
+    }
+
+    .app-content-body-left {
+        width: 100px;
+        height: 100%;
+        border-right: solid 1px #bbb;
+    }
+
+    .app-content-body-right {
+        width: calc(100% - 100px);
+        height: 100%;
+        overflow: auto;
+    }
+
+    .app-content-input {
+        padding: 10px 15px;
+        border-top: solid 1px #bbb;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    input {
+        border: none;
+        padding: 2px 3px;
+        outline: none;
+        width: calc(100% - 65px);
+    }
+
+    input:disabled {
+        background-color: #fff;
+        cursor: no-drop;
+    }
+
+    .app-content-body-left {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .app-content-body-left-div {
+        text-align: center;
+        padding: 10px 0px;
+    }
+
+    button {
+        border: none;
+        background: #0af;
+        font-size: 15px;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: .3s;
+    }
+
+    button:hover {
+        background: #009ae7;
+    }
+
+    button:active {
+        transform: scale(.9);
+    }
+
+    button:disabled {
+        opacity: .5;
+        cursor: no-drop;
+    }
+
+    button:disabled:hover {
+        background: #0af;
+    }
+
+    button:disabled:active {
+        transform: scale(1);
+    }
+
+    .app-content-body-right-div {
+        margin-left: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .app-content-body-right-div .app-content-body-right-div-bottom::selection {
+        background: #38a3ff;
+        color: #fff
+    }
+
+    .app-content-body-right-div-top {
+        font-size: 14px;
+        color: #888;
+        margin-left: 2px;
+        user-select: none;
+    }
+
+    .app-content-body-right-div-bottom {
+        font-size: 16px;
+        width: fit-content;
+        background: #eee;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .app-content-body-right-div.right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-right: 15px;
+    }
+
+    .app-content-body-right-div.right .app-content-body-right-div-bottom::selection {
+        background: #fff;
+        color: #38a3ff
+    }
+
+    .app-content-body-right-div.right .app-content-body-right-div-bottom {
+        background: #38a3ff;
+        color: #fff;
+    }
+
+    .app-content-body-right-xt {
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        color: #aaa;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .app-content-body-right-xt::selection {
+        background: #aaa;
+        color: #fff
+    }
+
+    .copyright {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px;
+        color: #666;
+        user-select: none;
+    }
+</style>
+<div id="app">
+    <div class="app-content">
+        <div class="app-content-title">小宏の聊天室（<r>0</r> / 20）</div>
+        <div class="app-content-body">
+            <div class="app-content-body-left"></div>
+            <div class="app-content-body-right"></div>
+        </div>
+        <div class="app-content-input">
+            <input placeholder="说点啥好呢？">
+            <button>发送！</button>
+        </div>
+    </div>
+    <div class="copyright">Copyright (c) 2023 xiaohong2022</div>
+</div>
 <script>
-!function(){
-var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.createTemplateTagFirstArg=function(b){return b.raw=b};$jscomp.createTemplateTagFirstArgWithRaw=function(b,c){b.raw=c;return b};$jscomp.arrayIteratorImpl=function(b){var c=0;return function(){return c<b.length?{done:!1,value:b[c++]}:{done:!0}}};$jscomp.arrayIterator=function(b){return{next:$jscomp.arrayIteratorImpl(b)}};$jscomp.makeIterator=function(b){var c="undefined"!=typeof Symbol&&Symbol.iterator&&b[Symbol.iterator];return c?c.call(b):$jscomp.arrayIterator(b)};
-!function(b,c){"object"==typeof exports&&"undefined"!=typeof module?module.exports=c():"function"==typeof define&&define.amd?define(c):(b="undefined"!=typeof globalThis?globalThis:b||self).xhdialog=c()}(this,function(){var b=function(a,e){var d=this,f=document.createElement("button");f.className="xhdialog-options-btn"+(a.class?" "+("string"==typeof a.class?a.class:"object"==typeof a.class?Object.values(a.class).join(" "):""):"");f.addEventListener("click",a.onClick?a.onClick:null);f.addEventListener("click",
-function(){d.options.closeOnClick&&d.$offsetDialog._root.close(d._selectValue)});f.innerHTML='<div class="xhdialog-options-btn-loading xhdialog-options-btn-loading-close"></div><span></span>';this.$element=f;this.$offsetDialog=e;this.$element.querySelector("span").innerText=a.text;this._state="enable";this._loading=!1;this.options={closeOnClick:!!a.closeOnClick};this._selectValue=a.value};b.prototype.startload=function(){this.$element.querySelector(".xhdialog-options-btn-loading").classList.remove("xhdialog-options-btn-loading-close");
-this._loading=!0;return this};b.prototype.stopload=function(){this.$element.querySelector(".xhdialog-options-btn-loading").classList.add("xhdialog-options-btn-loading-close");this._loading=!1;return this};b.prototype.remove=function(){this.$element.remove()};b.prototype.setText=function(a){this.$element.querySelector("span").innerText=a;return this};b.prototype.getText=function(){return this.$element.querySelector("span").innerHTML};b.prototype.disabled=function(a){this._state=(this.$element.disabled=
-void 0===a?!0:a)?"disabled":"enable";return this};b.prototype.enable=function(a){a=void 0===a?!0:a;this.$element.disabled=!a;this._state=a?"enable":"disabled";return this};var c=function(a){var e=this,d=document.createElement("div");d.className="xhdialog"+(a.class?" "+("string"==typeof a.class?a.class:"object"==typeof a.class?Object.values(a.class).join(" "):""):"");this.$element=d;var f=document.createElement("div");f.className="xhdialog-overlay";this.$overlay=f;var g=a.title?'<div class="xhdialog-title">'+
-a.title+"</div>":"";g+='<div class="xhdialog-content">'+(a.content?a.content:"")+"</div>";d.innerHTML=g;if(a.buttons){g=document.createElement("div");g.className="xhdialog-options";for(var l=a.buttons.map(function(n){return new b(n,d)}),m=$jscomp.makeIterator(l),h=m.next();!h.done;h=m.next())h=h.value,g.appendChild(h.$element),h.$element._root=h;d.appendChild(g);this.buttons={$card:g,$elements:l}}this._state="close";f.addEventListener("click",function(){e.options.overlayOnClose&&e.close(e._overlayValue)});
-document.body.appendChild(d);this._select=null;this._overlayValue=a.overlayValue;d._root=this;this.options={removeOnClose:!!a.removeOnClose,overlayOnClose:a.overlayOnClose||!0}};c.prototype.open=function(){var a=this;document.body.appendChild(this.$overlay);this.$element.classList.add("xhdialog-animation-open");this.$overlay.classList.add("xhdialog-overlay-animation-open");document.body.classList.add("xhdialog-body-lock");setTimeout(function(){a.$element.classList.add("xhdialog-open");a.$overlay.classList.add("xhdialog-overlay-show");
-a.$element.classList.remove("xhdialog-animation-open");a.$overlay.classList.remove("xhdialog-overlay-animation-open")},10);this._state="open";return this};c.prototype.close=function(a){var e=this;this.$element.classList.add("xhdialog-animation-close");this.$overlay.classList.add("xhdialog-overlay-animation-close");1==document.querySelectorAll(".xhdialog").length&&document.body.classList.remove("xhdialog-body-lock");setTimeout(function(){e.$element.classList.remove("xhdialog-open");e.$overlay.classList.remove("xhdialog-overlay-show");
-e.$element.classList.remove("xhdialog-animation-close");e.$overlay.classList.remove("xhdialog-overlay-animation-close");e.options.removeOnClose?e.remove():document.body.removeChild(e.$overlay)},300);this._select=a;this._state="close";return a};c.prototype.remove=function(){this.$element.remove();this.$overlay.remove()};c.prototype.isOpen=function(){return"open"==this._state};c.prototype.addElement=function(a){this.$element.querySelector(".xhdialog-content").appendChild(a);return a};var k=document.createElement("style");
-k.type="text/css";k.innerHTML=`.xhdialog{box-sizing:border-box;margin:0;padding:0;outline:0}body.xhdialog-body-lock{overflow:hidden}.xhdialog-overlay{position:fixed;top:0;left:0;z-index:50000;display:none;box-sizing:border-box;background:rgba(0,0,0,.4);opacity:0;-webkit-transition:.3s,width 0s,height 0s;transition:.3s,width 0s,height 0s}.xhdialog-overlay-show{display:block;width:100%;height:100%;opacity:1}.xhdialog-overlay-animation-open{display:block;opacity:0}.xhdialog-overlay-animation-close{opacity:0}
+    !function () {
+        var $jscomp = $jscomp || {}; $jscomp.scope = {}; $jscomp.createTemplateTagFirstArg = function (b) { return b.raw = b }; $jscomp.createTemplateTagFirstArgWithRaw = function (b, c) { b.raw = c; return b }; $jscomp.arrayIteratorImpl = function (b) { var c = 0; return function () { return c < b.length ? { done: !1, value: b[c++] } : { done: !0 } } }; $jscomp.arrayIterator = function (b) { return { next: $jscomp.arrayIteratorImpl(b) } }; $jscomp.makeIterator = function (b) { var c = "undefined" != typeof Symbol && Symbol.iterator && b[Symbol.iterator]; return c ? c.call(b) : $jscomp.arrayIterator(b) };
+        !function (b, c) { "object" == typeof exports && "undefined" != typeof module ? module.exports = c() : "function" == typeof define && define.amd ? define(c) : (b = "undefined" != typeof globalThis ? globalThis : b || self).xhdialog = c() }(this, function () {
+            var b = function (a, e) {
+                var d = this, f = document.createElement("button"); f.className = "xhdialog-options-btn" + (a.class ? " " + ("string" == typeof a.class ? a.class : "object" == typeof a.class ? Object.values(a.class).join(" ") : "") : ""); f.addEventListener("click", a.onClick ? a.onClick : null); f.addEventListener("click",
+                    function () { d.options.closeOnClick && d.$offsetDialog._root.close(d._selectValue) }); f.innerHTML = '<div class="xhdialog-options-btn-loading xhdialog-options-btn-loading-close"></div><span></span>'; this.$element = f; this.$offsetDialog = e; this.$element.querySelector("span").innerText = a.text; this._state = "enable"; this._loading = !1; this.options = { closeOnClick: !!a.closeOnClick }; this._selectValue = a.value
+            }; b.prototype.startload = function () {
+                this.$element.querySelector(".xhdialog-options-btn-loading").classList.remove("xhdialog-options-btn-loading-close");
+                this._loading = !0; return this
+            }; b.prototype.stopload = function () { this.$element.querySelector(".xhdialog-options-btn-loading").classList.add("xhdialog-options-btn-loading-close"); this._loading = !1; return this }; b.prototype.remove = function () { this.$element.remove() }; b.prototype.setText = function (a) { this.$element.querySelector("span").innerText = a; return this }; b.prototype.getText = function () { return this.$element.querySelector("span").innerHTML }; b.prototype.disabled = function (a) {
+                this._state = (this.$element.disabled =
+                    void 0 === a ? !0 : a) ? "disabled" : "enable"; return this
+            }; b.prototype.enable = function (a) { a = void 0 === a ? !0 : a; this.$element.disabled = !a; this._state = a ? "enable" : "disabled"; return this }; var c = function (a) {
+                var e = this, d = document.createElement("div"); d.className = "xhdialog" + (a.class ? " " + ("string" == typeof a.class ? a.class : "object" == typeof a.class ? Object.values(a.class).join(" ") : "") : ""); this.$element = d; var f = document.createElement("div"); f.className = "xhdialog-overlay"; this.$overlay = f; var g = a.title ? '<div class="xhdialog-title">' +
+                    a.title + "</div>" : ""; g += '<div class="xhdialog-content">' + (a.content ? a.content : "") + "</div>"; d.innerHTML = g; if (a.buttons) { g = document.createElement("div"); g.className = "xhdialog-options"; for (var l = a.buttons.map(function (n) { return new b(n, d) }), m = $jscomp.makeIterator(l), h = m.next(); !h.done; h = m.next())h = h.value, g.appendChild(h.$element), h.$element._root = h; d.appendChild(g); this.buttons = { $card: g, $elements: l } } this._state = "close"; f.addEventListener("click", function () { e.options.overlayOnClose && e.close(e._overlayValue) });
+                document.body.appendChild(d); this._select = null; this._overlayValue = a.overlayValue; d._root = this; this.options = { removeOnClose: !!a.removeOnClose, overlayOnClose: a.overlayOnClose || !0 }
+            }; c.prototype.open = function () {
+                var a = this; document.body.appendChild(this.$overlay); this.$element.classList.add("xhdialog-animation-open"); this.$overlay.classList.add("xhdialog-overlay-animation-open"); document.body.classList.add("xhdialog-body-lock"); setTimeout(function () {
+                    a.$element.classList.add("xhdialog-open"); a.$overlay.classList.add("xhdialog-overlay-show");
+                    a.$element.classList.remove("xhdialog-animation-open"); a.$overlay.classList.remove("xhdialog-overlay-animation-open")
+                }, 10); this._state = "open"; return this
+            }; c.prototype.close = function (a) {
+                var e = this; this.$element.classList.add("xhdialog-animation-close"); this.$overlay.classList.add("xhdialog-overlay-animation-close"); 1 == document.querySelectorAll(".xhdialog").length && document.body.classList.remove("xhdialog-body-lock"); setTimeout(function () {
+                    e.$element.classList.remove("xhdialog-open"); e.$overlay.classList.remove("xhdialog-overlay-show");
+                    e.$element.classList.remove("xhdialog-animation-close"); e.$overlay.classList.remove("xhdialog-overlay-animation-close"); e.options.removeOnClose ? e.remove() : document.body.removeChild(e.$overlay)
+                }, 300); this._select = a; this._state = "close"; return a
+            }; c.prototype.remove = function () { this.$element.remove(); this.$overlay.remove() }; c.prototype.isOpen = function () { return "open" == this._state }; c.prototype.addElement = function (a) { this.$element.querySelector(".xhdialog-content").appendChild(a); return a }; var k = document.createElement("style");
+            k.type = "text/css"; k.innerHTML = `.xhdialog{box-sizing:border-box;margin:0;padding:0;outline:0}body.xhdialog-body-lock{overflow:hidden}.xhdialog-overlay{position:fixed;top:0;left:0;z-index:50000;display:none;box-sizing:border-box;background:rgba(0,0,0,.4);opacity:0;-webkit-transition:.3s,width 0s,height 0s;transition:.3s,width 0s,height 0s}.xhdialog-overlay-show{display:block;width:100%;height:100%;opacity:1}.xhdialog-overlay-animation-open{display:block;opacity:0}.xhdialog-overlay-animation-close{opacity:0}
 .xhdialog{position:fixed;top:0;right:0;bottom:0;left:0;z-index:999999999;display:none;overflow:hidden;margin:auto;padding:20px 30px 70px;max-width:70%;max-height:70%;min-width:300px;min-height:170px;-webkit-border-radius:10px;border-radius:10px;background:#fff;-webkit-box-shadow:0 11px 15px -7px rgb(0 0 0/20%),0 24px 38px 3px rgb(0 0 0/14%),0 9px 46px 8px rgb(0 0 0/12%);box-shadow:0 11px 15px -7px rgb(0 0 0/20%),0 24px 38px 3px rgb(0 0 0/14%),0 9px 46px 8px rgb(0 0 0/12%);-webkit-transition-duration:.3s;transition-duration:.3s;
 -webkit-transform:scale(.7);transform:scale(.7)}.xhdialog.xhdialog-open{display:block;-webkit-transform:scale(1);transform:scale(1)}.xhdialog.xhdialog-animation-open{display:block;opacity:0}.xhdialog.xhdialog-animation-close{opacity:0;-webkit-transform:scale(.7);transform:scale(.7)}.xhdialog button.xhdialog-options-btn{margin-left:9px;padding:6px 13px;border:1px solid #aaa;border-radius:5px;background:0 0;color:#000;font-size:14px;cursor:pointer;-webkit-transition-duration:.3s;transition-duration:.3s;user-select:none!important;
 -webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important}.xhdialog button.xhdialog-options-btn:hover{background:rgba(0,0,0,.07)}.xhdialog button.xhdialog-options-btn:active{background:rgba(0,0,0,.2);-webkit-transform:scale(.9);transform:scale(.9)}.xhdialog button.xhdialog-options-btn.xhdialog-options-btn-confirm{border:1px solid var(--color-primary);background:var(--color-primary);color:var(--color-button-text)}.xhdialog button.xhdialog-options-btn.xhdialog-options-btn-confirm:hover{
 border:1px solid var(--color-primary-hover);background:var(--color-primary-hover)}.xhdialog button.xhdialog-options-btn.xhdialog-options-btn-confirm:active{border:1px solid var(--color-primary-press);background:var(--color-primary-press)}.xhdialog button.xhdialog-options-btn[disabled]{opacity:.4;cursor:auto;-webkit-transform:scale(1);transform:scale(1)}.xhdialog .xhdialog-options{position:fixed;right:30px;bottom:20px}.xhdialog .xhdialog-title{margin-bottom:10px;color:var(--title-color);font-size:27px;user-select:none;
 -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.xhdialog .xhdialog-content{color:var(--content-color);white-space:pre-wrap;word-wrap:break-word;font-size:14px}.xhdialog-prompt-input{margin-top:5px;padding:5px 10px;width:100%;outline:0;border:1px solid #aaa;border-radius:5px;background:0 0;color:#000;font-size:14px;-webkit-transition-duration:.3s;transition-duration:.3s}.xhdialog-prompt-input:focus-visible{border:1px solid #0af}.xhdialog .xhdialog-content{display:flex;flex-direction:column;align-items:flex-start}
 .xhdialog-alert,.xhdialog-confirm,.xhdialog-prompt{max-width:40%;max-height:30%}.xhdialog{--color-primary:#0af;--color-primary-hover:rgba(0,170,255,0.87);--color-primary-press:rgba(0,170,255,0.6);--color-button-text:#fff;--title-color:#000;--content-color:rgba(0,0,0,0.73)}`
-document.head.appendChild(k);return{alert:async function(a){a=new c({title:"System",content:a,buttons:[{text:"ok",value:void 0,closeOnClick:!0,class:"xhdialog-options-btn-confirm"}],class:["xhdialog-alert"],removeOnClose:!0,overlayValue:void 0});await new Promise(requestAnimationFrame);a.open();for(await new Promise(requestAnimationFrame);;){if(!a.isOpen()){await new Promise(requestAnimationFrame);break}await new Promise(requestAnimationFrame)}},confirm:async function(a){a=new c({title:"System",content:a,buttons:[{text:"ok",value:!0,
-closeOnClick:!0,class:"xhdialog-options-btn-confirm"},{text:"cancel",value:!1,closeOnClick:!0}],class:["xhdialog-confirm"],removeOnClose:!0,overlayValue:!1});await new Promise(requestAnimationFrame);a.open();for(await new Promise(requestAnimationFrame);;){if(!a.isOpen())return await new Promise(requestAnimationFrame),a._select;await new Promise(requestAnimationFrame)}},prompt:async function(a,e){a=new c({title:"System",content:a,buttons:[{text:"ok",value:!0,closeOnClick:!0,class:"xhdialog-options-btn-confirm"},{text:"cancel",
-value:!1,closeOnClick:!0}],class:["xhdialog-prompt"],removeOnClose:!0,overlayValue:!1});var d=document.createElement("input");d.className="xhdialog-prompt-input";d.value=e||"";a.$element.querySelector(".xhdialog-content").appendChild(d);await new Promise(requestAnimationFrame);a.open();for(await new Promise(requestAnimationFrame);;){if(!a.isOpen())return await new Promise(requestAnimationFrame),a._select?d.value:null;await new Promise(requestAnimationFrame)}},Dialog:c}});
-}();!(function(){function p(b){function e(){document.querySelector("r").innerText=g.length;document.querySelector(".app-content-body-left").innerHTML=g.map(function(a){return'<div class="app-content-body-left-div">'+a+"</div>"}).join("")}function q(){document.querySelector("input").disabled=!0;document.querySelector("button").disabled=!0;var a=3;document.querySelector("input").placeholder="\u8bf7\u9759\u606f"+a+"\u79d2\u540e\u518d\u6765\u5427~";var c=setInterval(function(){a--;document.querySelector("input").placeholder="\u8bf7\u9759\u606f"+a+"\u79d2\u540e\u518d\u6765\u5427~";0===a&&(clearInterval(c),(document.querySelector("input").disabled=!1),(document.querySelector("button").disabled=!1),(document.querySelector("input").placeholder="\u9759\u606f\u7ed3\u675f\uff01\u53ef\u4ee5\u7ee7\u7eed\u53d1\u6d88\u606f~"),setTimeout(function(){document.querySelector("input").placeholder="\u8bf4\u70b9\u5565\u597d\u5462\uff1f"},1e3))},1e3)}function r(){console.log("\u91cd\u540d\u68c0\u67e5\u5f00\u59cb");for(var a=[],c=f.makeIterator(g),d=c.next();!d.done;d=c.next())if(((d=d.value),console.log("\u68c0\u67e5\u540d\u5b57",d),!1===a.includes(d)))a.push(d),console.log("\u672a\u91cd\u540d");else{console.log("\u53d1\u73b0\u91cd\u540d");document.querySelector("#app").style.display="none";xhdialog.alert("\u6635\u79f0\u5df2\u5b58\u5728\uff0c\u8bf7\u91cd\u65b0\u547d\u540d").then(function(){location.reload()});break}console.log("\u91cd\u540d\u68c0\u67e5\u7ed3\u675f")}function m(a){var c=document.createElement("div");c.className="app-content-body-right-xt";c.innerText=a;document.querySelector(".app-content-body-right").appendChild(c)}function n(a){h.send('42["broadcast",'+JSON.stringify({data:a,room_id:37653,username:b})+"]");q()}function t(){document.querySelector("input").addEventListener("keypress",function(a){13===a.keyCode&&""!==this.value&&(n(this.value),(this.value=""))});document.querySelector("button").addEventListener("click",function(a){""!==document.querySelector("input").value?(n(document.querySelector("input").value),(document.querySelector("input").value="")):xhdialog.alert("\u6b38\uff0c\u8fd9\u6846\u91cc...\u5565\u4e5f\u6ca1\u6709\u6b38")});window.addEventListener("beforeunload",function(){h.send('42["leave",'+JSON.stringify({room_name:"XH_zu8s1tQ0g1",username:b,room_id:37653,work_id:"179218045"})+"]")})}b||location.reload();var g=[],h=new WebSocket("wss://socket-cr.codemao.cn:9090/coconut/?x-coconut-authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ3b3JrX2lkIjoiMTc5MjE4MDQ1IiwidXNlcl9pZCI6IjkyMzIxNTEifQ.PEJx3asH_HECfXzs0VmjNUGif2tDSKbBvznCP_iGHmc&X-CodeMao-Mobile-Requested=%7B%22group_id%22%3A%22b494b662-67e9-4b54-a86b-82ac09ef9284%22%2C%22platform%22%3A%22web%22%2C%22origin%22%3A%22coconut%22%7D&EIO=3&transport=websocket");h.onclose=function(){console.log("\u670d\u52a1\u5668\u4e2d\u65ad\uff01");document.querySelector("#app").style.display="none";xhdialog.alert("\u670d\u52a1\u5668\u4e2d\u65ad\uff01\u6b63\u5728\u91cd\u65b0\u52a0\u8f7d\uff01").then(function(){location.reload()})};setInterval(function(){h.send("2")},5e4);h.onmessage=function(a){a=a.data;if(a.startsWith("0"))console.log(JSON.parse(a.slice(1))),h.send('42["join",'+JSON.stringify({room_name:"XH_zu8s1tQ0g1",username:b,room_id:37653,work_id:"179218045"})+"]"),t();else if(!1===isNaN(Number(a)))"3"===a?console.log("\u670d\u52a1\u5668ping\u6210\u529f"):"1"===a&&console.log("\u670d\u52a1\u5668\u5373\u5c06\u4e2d\u65ad");else if(a.startsWith("42")){a=JSON.parse(a.slice(2));console.log(a);var c=a[1];switch(a[0]){case"join":m(c.username+"\u8fdb\u5165\u4e86\u804a\u5929\u5ba4");c.username!=b&&g.push(c.username);e();break;case"join_ack":g=c.username_list;e();r();break;case"leave":m(c.username+"\u79bb\u5f00\u4e86\u804a\u5929\u5ba4");g.splice(g.indexOf(c.username),1);e();break;case"broadcast":a=c.username;c=c.data;var d=document.createElement("div");d.className="app-content-body-right-div";var k=document.createElement("div");k.className="app-content-body-right-div-top";var l=document.createElement("div");l.className="app-content-body-right-div-bottom";k.innerText=a;l.innerText=c;d.append(k,l);d.className+=a===b?"right":"left";document.querySelector(".app-content-body-right").appendChild(d);break;case"error":alert("\u670d\u52a1\u5668\u4eba\u6570\u5df2\u6ee1"),location.reload()}}}}var f=f||{};f.scope={};f.createTemplateTagFirstArg=function(b){return(b.raw=b)};f.createTemplateTagFirstArgWithRaw=function(b,e){b.raw=e;return b};f.arrayIteratorImpl=function(b){var e=0;return function(){return e<b.length?{done:!1,value:b[e++]}:{done:!0}}};f.arrayIterator=function(b){return{next:f.arrayIteratorImpl(b)}};f.makeIterator=function(b){var e="undefined"!=typeof Symbol&&Symbol.iterator&&b[Symbol.iterator];return e?e.call(b):f.arrayIterator(b)};xhdialog.prompt("\u8f93\u5165\u6635\u79f0\u4ee5\u52a0\u5165\u670d\u52a1\u5668").then(function(b){p(b)})})();
+            document.head.appendChild(k); return {
+                alert: async function (a) { a = new c({ title: "系统", content: a, buttons: [{ text: "确认", value: void 0, closeOnClick: !0, class: "xhdialog-options-btn-confirm" }], class: ["xhdialog-alert"], removeOnClose: !0, overlayValue: void 0 }); await new Promise(requestAnimationFrame); a.open(); for (await new Promise(requestAnimationFrame); ;) { if (!a.isOpen()) { await new Promise(requestAnimationFrame); break } await new Promise(requestAnimationFrame) } }, confirm: async function (a) {
+                    a = new c({
+                        title: "系统", content: a, buttons: [{
+                            text: "确认", value: !0,
+                            closeOnClick: !0, class: "xhdialog-options-btn-confirm"
+                        }, { text: "取消", value: !1, closeOnClick: !0 }], class: ["xhdialog-confirm"], removeOnClose: !0, overlayValue: !1
+                    }); await new Promise(requestAnimationFrame); a.open(); for (await new Promise(requestAnimationFrame); ;) { if (!a.isOpen()) return await new Promise(requestAnimationFrame), a._select; await new Promise(requestAnimationFrame) }
+                }, prompt: async function (a, e) {
+                    a = new c({
+                        title: "系统", content: a, buttons: [{ text: "确认", value: !0, closeOnClick: !0, class: "xhdialog-options-btn-confirm" }, {
+                            text: "取消",
+                            value: !1, closeOnClick: !0
+                        }], class: ["xhdialog-prompt"], removeOnClose: !0, overlayValue: !1
+                    }); var d = document.createElement("input"); d.className = "xhdialog-prompt-input"; d.value = e || ""; a.$element.querySelector(".xhdialog-content").appendChild(d); await new Promise(requestAnimationFrame); a.open(); for (await new Promise(requestAnimationFrame); ;) { if (!a.isOpen()) return await new Promise(requestAnimationFrame), a._select ? d.value : null; await new Promise(requestAnimationFrame) }
+                }, Dialog: c
+            }
+        });
+    }();
+    function initt(name) {
+        if (!name) location.reload();
+        var renlist = [];
+        function updataman() {
+            document.querySelector("r").innerText = renlist.length;
+            document.querySelector(".app-content-body-left").innerHTML = renlist.map(v => `<div class="app-content-body-left-div">${v}</div>`).join("")
+        }
+        function sleepsend() {
+            document.querySelector("input").disabled = true;
+            document.querySelector("button").disabled = true;
+            var x = 3;
+            document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
+            var y = setInterval(() => {
+                x--;
+                document.querySelector("input").placeholder = `请 静息 ${x}秒 后再来吧~`
+                if (x === 0) {
+                    clearInterval(y)
+                    document.querySelector("input").disabled = false;
+                    document.querySelector("button").disabled = false;
+                    document.querySelector("input").placeholder = `静息结束！可以继续发消息~`
+                    setTimeout(() => {
+                        document.querySelector("input").placeholder = `说点啥好呢？`
+                    }, 1000)
+                }
+            }, 1000);
+        }
+        function ask() {
+            console.log("重名检查开始")
+            var t = [];
+            for (let i of renlist) {
+                console.log("检查名字", i);
+                if (t.includes(i) === false) {
+                    t.push(i)
+                    console.log("未重名");
+                }
+                else {
+                    console.log("发现重名");
+                    document.querySelector("#app").style.display = "none";
+                    xhdialog.alert("昵称已存在，请重新命名").then(() => { location.reload() })
+                    break;
+                }
+            }
+            console.log("重名检查结束")
+        }
+        function addmsg(n, s) {
+            var r = document.createElement("div");
+            r.className = "app-content-body-right-div"
+            var r1 = document.createElement("div");
+            r1.className = "app-content-body-right-div-top"
+            var r2 = document.createElement("div");
+            r2.className = "app-content-body-right-div-bottom"
+            r1.innerText = n;
+            r2.innerText = s;
+            r.append(r1, r2);
+            r.className += ` ${n === name ? "right" : "left"}`
+            document.querySelector(".app-content-body-right").appendChild(r);
+        }
+        function addsystemmsg(s) {
+            var r = document.createElement("div");
+            r.className = "app-content-body-right-xt"
+            r.innerText = s;
+            document.querySelector(".app-content-body-right").appendChild(r);
+        }
+        var webs = new WebSocket("wss://socket-cr.codemao.cn:9090/coconut/?x-coconut-authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ3b3JrX2lkIjoiMTc5MjE4MDQ1IiwidXNlcl9pZCI6IjkyMzIxNTEifQ.PEJx3asH_HECfXzs0VmjNUGif2tDSKbBvznCP_iGHmc&X-CodeMao-Mobile-Requested=%7B%22group_id%22%3A%22b494b662-67e9-4b54-a86b-82ac09ef9284%22%2C%22platform%22%3A%22web%22%2C%22origin%22%3A%22coconut%22%7D&EIO=3&transport=websocket");
+        webs.onclose = function () {
+            console.log("服务器中断！")
+            document.querySelector("#app").style.display = "none";
+            xhdialog.alert("服务器中断！正在重新加载！").then(() => { location.reload() })
+        };
+        function sendMessage(e) {
+            webs.send(`42["broadcast",${JSON.stringify({
+                data: e,
+                room_id: 37653,
+                username: name
+            })}]`)
+            sleepsend()
+        }
+        function joinMan(r) {
+            webs.send(`42["join",${JSON.stringify({
+                room_name: "XH_zu8s1tQ0g1",
+                username: r,
+                room_id: 37653,
+                work_id: "179218045"
+            })}]`)
+        }
+        function leave(r) {
+            webs.send(`42["leave",${JSON.stringify({
+                room_name: "XH_zu8s1tQ0g1",
+                username: r,
+                room_id: 37653,
+                work_id: "179218045"
+            })}]`)
+        }
+        function ping() {
+            webs.send("2");
+        }
+        function init() {
+            document.querySelector("input").addEventListener("keypress", function (v) {
+                if (v.keyCode === 13 && this.value !== "") {
+                    sendMessage(this.value);
+                    this.value = "";
+                }
+            })
+            document.querySelector("button").addEventListener("click", function (v) {
+                if (document.querySelector("input").value !== "") {
+                    sendMessage(document.querySelector("input").value);
+                    document.querySelector("input").value = "";
+                } else {
+                    xhdialog.alert("欸，这框里...啥也没有欸")
+                }
+            })
+            window.addEventListener("beforeunload", function () {
+                leave(name)
+            })
+        }
+        function onmsg({ data }) {
+            /**@type {string}*/
+            var d = data
+            if (d.startsWith("0")) {
+                console.log(JSON.parse(d.slice(1)))
+                joinMan(name);
+                init();
+            } else if (isNaN(Number(d)) === false) {
+                if (d === "3") {
+                    console.log("服务器ping成功")
+                } else if (d === "1") {
+                    console.log("服务器即将中断")
+                }
+            } else if (d.startsWith("42")) {
+                /**@type {array}*/
+                var w = JSON.parse(d.slice(2));
+                console.log(w);
+                var d2 = w[1]
+                switch (w[0]) {
+                    // 玩家进入
+                    case "join":
+                        addsystemmsg(`${d2.username} 进入了聊天室`)
+                        if (d2.username != name) {
+                            renlist.push(d2.username);
+                        };
+                        updataman()
+                        break;
+                    // 玩家列表
+                    case "join_ack":
+                        renlist = d2.username_list
+                        updataman()
+                        ask()
+                        break;
+                    // 玩家离开
+                    case "leave":
+                        addsystemmsg(`${d2.username} 离开了聊天室`)
+                        renlist.splice(renlist.indexOf(d2.username), 1);
+                        updataman()
+                        break;
+                    // 玩家发送消息
+                    case "broadcast":
+                        addmsg(d2.username, d2.data)
+                        break;
+                    // 玩家发送消息
+                    case "error":
+                        alert("服务器人数已满")
+                        location.reload();
+                        break;
+                }
+            }
+        }
+        setInterval(() => {
+            ping(); // 发送一次ping，防止服务器自己中断
+        }, 50000)
+        webs.onmessage = onmsg;
+    };
+    xhdialog.prompt("输入昵称以加入服务器").then(v => {
+        initt(v);
+    })
 </script>
