@@ -404,6 +404,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             })
         }
         function onmsg({ data }) {
+            /**@type {string}*/
             var d = data
             if (d.startsWith("0")) {
                 console.log(JSON.parse(d.slice(1)))
@@ -421,6 +422,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 console.log(w);
                 var d2 = w[1]
                 switch (w[0]) {
+                    // 玩家进入
                     case "join":
                         addsystemmsg(`${d2.username} 进入了聊天室`)
                         if (d2.username != name) {
@@ -428,19 +430,23 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                         };
                         updataman()
                         break;
+                    // 玩家列表
                     case "join_ack":
                         renlist = d2.username_list
                         updataman()
                         ask()
                         break;
+                    // 玩家离开
                     case "leave":
                         addsystemmsg(`${d2.username} 离开了聊天室`)
                         renlist.splice(renlist.indexOf(d2.username), 1);
                         updataman()
                         break;
+                    // 玩家发送消息
                     case "broadcast":
                         addmsg(d2.username, d2.data)
                         break;
+                    // 玩家发送消息
                     case "error":
                         alert("服务器人数已满")
                         location.reload();
@@ -449,8 +455,17 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             }
         }
         setInterval(() => {
-            ping();
+            ping(); // 发送一次ping，防止服务器自己中断
         }, 50000)
+        webs.onmessage = onmsg;
+        // document.t = {
+        //     addmsg,
+        //     sendMessage,
+        //     joinMan,
+        //     leave,
+        //     ping,
+        //     webs
+        // }
     };
     xhdialog.prompt("输入昵称以加入服务器").then(v => {
         initt(v);
