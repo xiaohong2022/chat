@@ -210,7 +210,7 @@
             border-radius: 0px;
         }
 
-        .copyright{
+        .copyright {
             bottom: 50px;
             font-size: 12px;
         }
@@ -287,6 +287,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
     function initt(name) {
         if (!name) location.reload();
         var renlist = [];
+        var room_id = 37677;
         function updataman() {
             document.querySelector("r").innerText = renlist.length;
             document.querySelector(".app-content-body-left").innerHTML = renlist.map(v => `<div class="app-content-body-left-div">${v}</div>`).join("")
@@ -356,12 +357,12 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
         webs.onclose = function () {
             console.log("服务器中断！")
             document.querySelector("#app").style.display = "none";
-            xhdialog.alert("服务器中断！正在重新加载！").then(() => { location.reload() })
+            xhdialog.alert("服务器中断！即将重新加载！").then(() => { location.reload() })
         };
         function sendMessage(e) {
             webs.send(`42["broadcast",${JSON.stringify({
                 data: e,
-                room_id: 37653,
+                room_id: room_id,
                 username: name
             })}]`)
         }
@@ -369,7 +370,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             webs.send(`42["join",${JSON.stringify({
                 room_name: "XH_zu8s1tQ0g1",
                 username: r,
-                room_id: 37653,
+                room_id: room_id,
                 work_id: "179218045"
             })}]`)
         }
@@ -377,7 +378,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             webs.send(`42["leave",${JSON.stringify({
                 room_name: "XH_zu8s1tQ0g1",
                 username: r,
-                room_id: 37653,
+                room_id: room_id,
                 work_id: "179218045"
             })}]`)
         }
@@ -448,8 +449,8 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                         break;
                     // 玩家发送消息
                     case "error":
-                        alert("服务器人数已满")
-                        location.reload();
+                        document.querySelector("#app").style.display = "none";
+                        xhdialog.alert(d2.message).then(() => { location.reload() })
                         break;
                 }
             }
