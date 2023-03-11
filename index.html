@@ -89,6 +89,10 @@
     .app-content-body-left-div {
         text-align: center;
         padding: 10px 0px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
     }
 
     button {
@@ -193,6 +197,45 @@
         user-select: none;
     }
 
+    .app-content-body-left-top {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: calc(100% - 8px * 2);
+        height: calc(100% - 74px);
+        overflow-y: scroll;
+        padding: 0px 8px;
+    }
+
+    .app-content-body-left-top::-webkit-scrollbar {
+        display: none;
+    }
+
+    .app-content-body-left-bottom {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+    }
+
+    .app-content-body-left-bottom-setname {
+        text-align: center;
+        padding: 10px 0px;
+        border-top: solid 1px #bbb;
+        font-size: 12px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .app-content-body-left-bottom-clearmsg {
+        text-align: center;
+        padding: 10px 0px;
+        border-top: solid 1px #bbb;
+        font-size: 12px;
+        cursor: pointer;
+        user-select: none;
+    }
+
     @media (max-width: 700px) {
         .app-content {
             background: #fff;
@@ -220,7 +263,13 @@
     <div class="app-content">
         <div class="app-content-title">小宏の聊天室（<r>0</r> / 20）</div>
         <div class="app-content-body">
-            <div class="app-content-body-left"></div>
+            <div class="app-content-body-left">
+                <div class="app-content-body-left-top"></div>
+                <div class="app-content-body-left-bottom">
+                    <div class="app-content-body-left-bottom-setname">更改名字</div>
+                    <div class="app-content-body-left-bottom-clearmsg">清空聊天记录</div>
+                </div>
+            </div>
             <div class="app-content-body-right"></div>
         </div>
         <div class="app-content-input">
@@ -285,13 +334,49 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
         });
     }();
     !function () {
+
+        /**@return {IDBFactory}*/
+        function getIndexDB() {
+            const i =
+                window.indexedDB ||
+                window.mozIndexedDB ||
+                window.webkitIndexedDB ||
+                window.msIndexedDB ||
+                window.shimIndexedDB;
+            if (i) {
+                return i
+            }
+            return null
+        }
+        var indexeddb = getIndexDB();
+        var dbsql = indexeddb.open("xhchat_db", 1);
+        dbsql.onupgradeneeded = () => {
+            const db = dbsql.result;
+            const store = db.createObjectStore("messages", {
+                keyPath: "id",
+                autoIncrement: true,
+            });
+        };
+        dbsql.onsuccess = () => {
+            console.log("本地消息数据库连接已建立");
+        };
+        function cleardbmsg() {
+            const db = dbsql.result
+            const tx = db.transaction("messages", "readwrite")
+            const todosStore = tx.objectStore("messages")
+            todosStore.clear();
+        };
         function it(name) {
             if (!name) location.reload();
             var renlist = [];
             var room_id = 37677;
+            if (!localStorage.getItem("xhchat_isreadannouncement")) {
+                localStorage.setItem("xhchat_isreadannouncement", "1")
+                xhdialog.alert("近期更新：v1.1.0\n1. 添加聊天记录储存\n2. 名字可以储存到本地了，点击左边的“更改名字”即可更改名字\n3. 添加屏蔽词\n4. 聊天字数上限30字，名字上限15字\n5. 不能发空消息，不能设置空名字")
+            }
             function updataman() {
                 document.querySelector("r").innerText = renlist.length;
-                document.querySelector(".app-content-body-left").innerHTML = renlist.map(v => `<div class="app-content-body-left-div">${v}</div>`).join("")
+                document.querySelector(".app-content-body-left-top").innerHTML = renlist.map(v => `<div class="app-content-body-left-div" title="${v}">${v}</div>`).join("")
             }
             function sleepsend() {
                 document.querySelector("input").disabled = true;
@@ -330,6 +415,33 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 }
                 console.log("重名检查结束")
             }
+            function dbToMessage() {
+                const db = dbsql.result
+                const tx = db.transaction("messages", "readwrite")
+                const todosStore = tx.objectStore("messages")
+                const query = todosStore.getAll()
+                query.onsuccess = () => {
+                    console.log("消息数据库", query.result);
+                    query.result.map(v => JSON.parse(v.text)).forEach(v => {
+                        if (v.type === 0) {
+                            addSystemMsg(v.data);
+                        } else {
+                            if (v.data.side === 1) {
+                                addmsg(name, v.data.data)
+                            } else {
+                                addmsg(v.data.name, v.data.data)
+                            }
+                        }
+                    })
+                }
+            }
+            function addMessageToDB(data) {
+                const db = dbsql.result
+                const tx = db.transaction("messages", "readwrite")
+                const todosStore = tx.objectStore("messages")
+                const text = JSON.stringify(data)
+                todosStore.put({ text });
+            }
             function addmsg(n, s) {
                 var r = document.createElement("div");
                 r.className = "app-content-body-right-div"
@@ -342,18 +454,17 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 r.append(r1, r2);
                 r.className += ` ${n === name ? "right" : "left"}`
                 document.querySelector(".app-content-body-right").appendChild(r);
-                /**@type {HTMLElement}*/
                 var ws = document.querySelector(".app-content-body-right")
-                if (ws.scrollTop - ws.offsetHeight <= ws.scrollHeight) {
-                    ws.scrollTop = ws.scrollHeight;
-                };
+                ws.scrollTop = ws.scrollHeight;
             }
-            function addsystemmsg(s) {
+            function addSystemMsg(s) {
                 var r = document.createElement("div");
                 r.className = "app-content-body-right-xt"
                 r.innerText = s;
                 document.querySelector(".app-content-body-right").appendChild(r);
-            }
+                var ws = document.querySelector(".app-content-body-right")
+                ws.scrollTop = ws.scrollHeight;
+            };
             var webs = new WebSocket("wss://socket-cr.codemao.cn:9090/coconut/?x-coconut-authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ3b3JrX2lkIjoiMTc5MjE4MDQ1IiwidXNlcl9pZCI6IjkyMzIxNTEifQ.PEJx3asH_HECfXzs0VmjNUGif2tDSKbBvznCP_iGHmc&X-CodeMao-Mobile-Requested=%7B%22group_id%22%3A%22b494b662-67e9-4b54-a86b-82ac09ef9284%22%2C%22platform%22%3A%22web%22%2C%22origin%22%3A%22coconut%22%7D&EIO=3&transport=websocket");
             webs.onclose = function () {
                 console.log("服务器中断！")
@@ -361,11 +472,216 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 xhdialog.alert("服务器中断！即将重新加载！").then(() => { location.reload() })
             };
             function sendMessage(e) {
+                if (e.length > 30) {
+                    addSystemMsg("消息太长啦")
+                    return
+                }
+                var x = 0;
+                for (let i of String(e)) {
+                    if ((i === " " || i === "　" || i === "\t") === false) {
+                        x = 1;
+                        break
+                    }
+                }
+                if (x !== 1) {
+                    addSystemMsg("消息不能为空哦")
+                    return
+                };
+                var dirty = [
+                    "舔吮",
+                    "抗议",
+                    "打死",
+                    "变态",
+                    "麻痹",
+                    "接吻",
+                    "流血",
+                    "侮辱",
+                    "去死",
+                    "舔着",
+                    "按摩",
+                    "狗叫",
+                    "裤衩",
+                    "孬种",
+                    "刺激",
+                    "青天白日",
+                    "拔出来",
+                    "呻吟",
+                    "小便",
+                    "牛比",
+                    "无耻",
+                    "想死",
+                    "出血",
+                    "裸露",
+                    "找死",
+                    "猎枪",
+                    "狂吠",
+                    "双筒",
+                    "发愣",
+                    "死刑",
+                    "和狗",
+                    "老母猪",
+                    "小姐",
+                    "舔吻",
+                    "快感",
+                    "爱抚",
+                    "情侣",
+                    "能儿",
+                    "卿卿我我",
+                    "插进",
+                    "浑圆",
+                    "的逼",
+                    "娇喘",
+                    "教徒",
+                    "单身",
+                    "约会",
+                    "玛叼",
+                    "祖宗",
+                    "兴奋剂",
+                    "淫威",
+                    "交配",
+                    "发情",
+                    "窝囊废",
+                    "掉你",
+                    "勾搭",
+                    "西藏",
+                    "主权",
+                    "抓胸",
+                    "啦沙",
+                    "娘的",
+                    "抚摸",
+                    "天葬",
+                    "夫君",
+                    "夫妻",
+                    "羞辱",
+                    "厚脸皮",
+                    "谩骂",
+                    "傻瓜",
+                    "兽性",
+                    "示威",
+                    "表白",
+                    "舔动着",
+                    "畜生",
+                    "铅弹",
+                    "恋爱",
+                    "射死",
+                    "调教",
+                    "是狗",
+                    "凌辱",
+                    "轮手",
+                    "满狗",
+                    "去世",
+                    "毒蛇钻",
+                    "全家",
+                    "穴里",
+                    "巴嘎",
+                    "不穿",
+                    "弓弩",
+                    "兼职",
+                    "上他",
+                    "对象",
+                    "毒枭",
+                    "麻醉枪",
+                    "污的",
+                    "经文",
+                    "法轮",
+                    "啵啵",
+                    "外孙",
+                    "藏民",
+                    "卑鄙",
+                    "护法",
+                    "纠纷",
+                    "汉人",
+                    "国民党",
+                    "死你",
+                    "亲一口",
+                    "升天",
+                    "有病",
+                    "放屁",
+                    "尼玛",
+                    "疯狗",
+                    "密宗",
+                    "枪手",
+                    "自杀",
+                    "铃声",
+                    "砍死",
+                    "白嫩",
+                    "骚",
+                    "妈的",
+                    "md",
+                    "MD",
+                    "SB",
+                    "sb",
+                    "Sb",
+                    "sB",
+                    "傻逼",
+                    "傻子",
+                    "傻蛋",
+                    "脑残",
+                    "卧槽",
+                    "我操",
+                    "我草",
+                    "牛逼",
+                    "wc",
+                    "mD",
+                    "Md",
+                    "猛吸",
+                    "哥哥",
+                    "强暴",
+                    "脱光",
+                    "人渣",
+                    "日你",
+                    "法会",
+                    "儿子",
+                    "性爱",
+                    "走狗",
+                    "牛粪",
+                    "粪便",
+                    "屎",
+                    "枪毙",
+                    "绑架",
+                    "活和",
+                    "杂种",
+                    "了他",
+                    "奶滴",
+                    "笨蛋",
+                    "法正",
+                    "受孕",
+                    "情人",
+                    "鄙视",
+                    "流氓",
+                    "白痴",
+                    "丑八怪",
+                    "滚开",
+                    "弱智",
+                    "孤儿",
+                    "无期徒刑",
+                    "他妈",
+                    "TM",
+                    "tm",
+                    "Tm",
+                    "tM",
+                    "踏马",
+                    "™",
+                    "欲火",
+                    "红色恐怖",
+                    "干死",
+                    "腐败",
+                    "打针",
+                    "马叼",
+                    "色色",
+                    "成人社",
+                    "同居",
+                    "禽兽",
+                    "幼女"
+                ]
+                if(new RegExp(dirty.join("|")).test(String(e))){
+                    addSystemMsg(">:(")
+                }
                 webs.send(`42["broadcast",${JSON.stringify({
-                    data: e,
+                    data: String(e).replace(new RegExp(dirty.join("|"), "g"), function (v) { iss = 1; return "*".repeat(v.length) }),
                     room_id: room_id,
                     username: name
-                })}]`)
+                })}]`);
             }
             function joinMan(r) {
                 webs.send(`42["join",${JSON.stringify({
@@ -387,20 +703,50 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 webs.send("2");
             }
             function init() {
-                document.querySelector("input").addEventListener("keypress", function (v) {
+                dbToMessage();
+                document.querySelector(".app-content-input input").addEventListener("keypress", function (v) {
                     if (v.keyCode === 13 && this.value !== "") {
                         sendMessage(this.value);
                         this.value = "";
                     }
-                })
-                document.querySelector("button").addEventListener("click", function (v) {
-                    if (document.querySelector("input").value !== "") {
-                        sendMessage(document.querySelector("input").value);
-                        document.querySelector("input").value = "";
+                });
+                document.querySelector(".app-content-input button").addEventListener("click", function (v) {
+                    if (document.querySelector(".app-content-input input").value !== "") {
+                        sendMessage(document.querySelector(".app-content-input input").value);
+                        document.querySelector(".app-content-input input").value = "";
                     } else {
                         xhdialog.alert("欸，这框里...啥也没有欸")
                     }
-                })
+                });
+                document.querySelector(".app-content-body-left-bottom-clearmsg").addEventListener("click", function () {
+                    xhdialog.confirm("你真的要清空聊天记录吗？").then(v => {
+                        if (v) {
+                            cleardbmsg();
+                            document.querySelector(".app-content-body-right").innerHTML = "";
+                        }
+                    })
+                });
+                document.querySelector(".app-content-body-left-bottom-setname").addEventListener("click", function () {
+                    xhdialog.prompt("输入新名字（需要重进）").then(v => {
+                        if (v.length > 15) {
+                            xhdialog.alert("名字太长啦")
+                            return
+                        }
+                        var x = 0;
+                        for (let i of String(v)) {
+                            if ((i === " " || i === "　" || i === "\t") === false) {
+                                x = 1;
+                                break
+                            }
+                        }
+                        if (x !== 1) {
+                            xhdialog.alert("名字不能为空哦")
+                            return
+                        }
+                        localStorage.setItem("xhchat_username", String(v))
+                        location.reload()
+                    });
+                });
                 window.addEventListener("beforeunload", function () {
                     leave(name)
                 })
@@ -416,6 +762,8 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                         console.log("服务器ping成功")
                     } else if (d === "1") {
                         console.log("服务器即将中断")
+                    } else if (d === "40") {
+                        console.log("服务器加入成功")
                     }
                 } else if (d.startsWith("42")) {
                     var w = JSON.parse(d.slice(2));
@@ -423,7 +771,11 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                     var d2 = w[1]
                     switch (w[0]) {
                         case "join":
-                            addsystemmsg(`${d2.username} 进入了聊天室`)
+                            addSystemMsg(`${d2.username} 进入了聊天室`)
+                            addMessageToDB({
+                                type: 0,
+                                data: `${d2.username} 进入了聊天室`
+                            });
                             if (d2.username != name) {
                                 renlist.push(d2.username);
                             };
@@ -435,12 +787,24 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                             ask()
                             break;
                         case "leave":
-                            addsystemmsg(`${d2.username} 离开了聊天室`)
+                            addSystemMsg(`${d2.username} 离开了聊天室`)
+                            addMessageToDB({
+                                type: 0,
+                                data: `${d2.username} 离开了聊天室`
+                            });
                             renlist.splice(renlist.indexOf(d2.username), 1);
                             updataman()
                             break;
                         case "broadcast":
                             addmsg(d2.username, d2.data)
+                            addMessageToDB({
+                                type: 1,
+                                data: {
+                                    data: d2.data,
+                                    name: d2.username,
+                                    side: d2.username === name ? 1 : 0
+                                }
+                            });
                             break;
                         case "error":
                             document.querySelector("#app").style.display = "none";
@@ -454,8 +818,28 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
             }, 50000)
             webs.onmessage = onmsg;
         };
-        xhdialog.prompt("输入昵称以加入服务器").then(v => {
-            it(v);
-        });
+        if (localStorage.getItem("xhchat_username")) {
+            it(String(localStorage.getItem("xhchat_username")));
+        } else {
+            xhdialog.prompt("输入昵称以加入服务器").then(v => {
+                if (v.length > 15) {
+                    xhdialog.alert("名字太长啦").then(() => { location.reload() });
+                    return
+                }
+                var x = 0;
+                for (let i of String(v)) {
+                    if ((i === " " || i === "　" || i === "\t") === false) {
+                        x = 1;
+                        break
+                    }
+                }
+                if (x !== 1) {
+                    xhdialog.alert("名字不能为空哦").then(() => { location.reload() });
+                    return
+                }
+                localStorage.setItem("xhchat_username", String(v))
+                it(v);
+            });
+        }
     }()
 </script>
