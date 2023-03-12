@@ -335,7 +335,6 @@
     }
 
     img.app-content-body-right-div-bottomimg {
-        width: 40%;
         cursor: zoom-in;
     }
 
@@ -616,7 +615,7 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                         title: "近期更新：v1.3.0",
                         content:
                             `1. 添加表情功能：目前有QQ、B站、编程猫的表情
-2. 添加图片功能，图片发送后，将按图片大小的40%显示
+2. 添加图片功能，图片发送后，将按图片大小的25%显示
 3. 其他`
                         , buttons: [{ text: "确认", value: !0, closeOnClick: !0, class: "xhdialog-options-btn-confirm" }]
                     });
@@ -725,6 +724,10 @@ border:1px solid var(--color-primary-hover);background:var(--color-primary-hover
                 r2.draggable = false;
                 r1.innerText = n;
                 r2.src = data;
+                r2.onload = () => {
+                    r2.width = r2.naturalWidth * 0.25;
+                    r2.height = r2.naturalHeight * 0.25;
+                }
                 r2.addEventListener("click", function () {
                     var x = URL.createObjectURL(dataURLtoBlob(data));
                     window.open(x);
