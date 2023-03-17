@@ -1,4 +1,11 @@
 # 小宏の聊天室
+<p>
+    <a href="https://github.com/xiaohong2022/chat/blob/main/licence"><img src="https://img.shields.io/github/license/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/"><img src="https://img.shields.io/github/stars/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/"><img src="https://img.shields.io/github/forks/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/issues"><img src="https://img.shields.io/github/issues/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/pulls"><img src="https://img.shields.io/github/issues-pr/xiaohong2022/chat"></a>
+</p>
 
 - 体验链接：[xiaohong2022.github.io/chat](https://xiaohong2022.github.io/chat)
 - 开始制作时间：2023/03/11 早上
