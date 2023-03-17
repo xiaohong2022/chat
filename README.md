@@ -1,8 +1,9 @@
 # 小宏の聊天室
 <p>
     <a href="https://github.com/xiaohong2022/chat/blob/main/licence"><img src="https://img.shields.io/github/license/xiaohong2022/chat"></a>
-    <a href="https://github.com/xiaohong2022/chat/"><img src="https://img.shields.io/github/stars/xiaohong2022/chat"></a>
-    <a href="https://github.com/xiaohong2022/chat/"><img src="https://img.shields.io/github/forks/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/stargazers"><img src="https://img.shields.io/github/stars/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/forks"><img src="https://img.shields.io/github/forks/xiaohong2022/chat"></a>
+    <a href="https://github.com/xiaohong2022/chat/watchers"><img src="https://img.shields.io/github/watchers/xiaohong2022/chat"></a>
     <a href="https://github.com/xiaohong2022/chat/issues"><img src="https://img.shields.io/github/issues/xiaohong2022/chat"></a>
     <a href="https://github.com/xiaohong2022/chat/pulls"><img src="https://img.shields.io/github/issues-pr/xiaohong2022/chat"></a>
 </p>
